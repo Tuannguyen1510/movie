@@ -1,6 +1,30 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom'
+import { history } from '../../../../App'
+import { ACCESS_TOKEN, removeStore, USER_LOGIN } from '../../../../util/config'
 export default function () {
+    const {userLogin} = useSelector(state => state.QuanLyNguoiDung);
+    const renderLoginButton = () => {
+        if (userLogin) {
+            return <>
+                <NavLink to="/profile" className="nav-link mx-3 text-white">Hello ! {userLogin.taiKhoan}</NavLink>
+                <span style={{ cursor: 'pointer', paddingRight: '15px' }} className="text-white" onClick={() => {
+                    removeStore(ACCESS_TOKEN);
+                    removeStore(USER_LOGIN);
+                    //clear hết tất cả biến trên redux
+                    window.location.reload();//f5 reload lại trang
+                }}>Logout</span>
+            </>
+        }
+        return <div>
+            <button className="self-center px-8 py-3 rounded" onClick={() => {
+                history.push('/login')
+            }}>Sign in</button>
+            <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">Sign up</button>
+        </div>
+
+    }
     return (
         <div>
             <header className="p-4  dark:text-gray-100 bg-slate-600 	w-full z-10">
@@ -21,11 +45,10 @@ export default function () {
                         <li className="flex">
                             <NavLink rel="noopener noreferrer" to="/news" activeClassName='border-double border-4 border-indigo-600' className="flex items-center px-4 -mb-1 border-b-2 ">News</NavLink>
                         </li>
-                
+
                     </ul>
                     <div className="items-center flex-shrink-0 hidden lg:flex">
-                        <button className="self-center px-8 py-3 rounded">Sign in</button>
-                        <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">Sign up</button>
+                        {renderLoginButton()}
                     </div>
                     <button className="p-4 lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 dark:text-gray-100">

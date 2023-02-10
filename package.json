@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.1.6",
     "axios": "^1.2.6",
+    "formik": "^2.2.9",
     "history": "^4.10.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
@@ -21,7 +22,8 @@
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "swiper": "^9.0.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
