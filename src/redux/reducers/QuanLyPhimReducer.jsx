@@ -62,7 +62,7 @@ export const getAllPhimApi = () => {
     return async (dispatch, getState) => {
 
         try {
-            const result = await http.get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP02`)
+            const result = await http.get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP09`)
 
             const action = getAllPhimApiAction(result.data.content);
             dispatch(action);

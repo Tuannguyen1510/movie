@@ -43,7 +43,7 @@ export default function HomeProductCarousel() {
         <div>
 
             <button className='btn btn-success' onClick={() => {
-                const action = getAllPhimDangChieu()
+                const action = getAllPhimDangChieu(arrFilm)
                 dispatch(action);
                 console.log(action);
                 alert('dang chieu')
@@ -51,7 +51,7 @@ export default function HomeProductCarousel() {
 
 
             <button className='btn btn-success' onClick={() => {
-                  const action = getAllPhimSapChieu()
+                  const action = getAllPhimSapChieu(arrFilm)
                   dispatch(action);
                   console.log(action);
                   alert('sap chieu')

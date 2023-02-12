@@ -1,0 +1,19 @@
+.ghe {
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    margin: 15px;
+    background-color:gray;
+    color: white;
+}
+
+.gheDaDat{
+    background: red;
+    cursor: no-drop;
+}
+.gheDangDat{
+    background: green;
+}
+.gheVip{
+    background: orange;
+}

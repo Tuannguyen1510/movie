@@ -101,11 +101,11 @@ export default function Detail() {
                           </div>
                         </div>
                         <div className="row mt-5">
-                          {cumRap.lichChieuPhim?.slice(0, 12).map((lichchieu, index) => {
+                          {cumRap.lichChieuPhim?.map((lichchieu, index) => {
                             return (
                             <NavLink to={`/checkout/${lichchieu.maLichChieu}`} key={index}  className="col-3" style={{color:'red'}}>
                               <div>
-                                {moment(lichchieu.ngayChieuPhim).format('hh: mm A')}
+                                {moment(lichchieu.ngayChieuGioChieu).format('hh: mm A')}
                               </div>
                             </NavLink>
                             )
