@@ -8,7 +8,10 @@ import { CloseCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { useParams } from 'react-router-dom';
 import { lodash } from 'lodash'
 import _ from 'lodash';
+import KetQuaThongTinDatVe  from './KetQuaThongTinDatVe';
+import { Tabs } from 'antd';
 import { ThongTinDatVe } from '../../_core/models/ThongTinDatVe';
+import {i18n} from '../../util/i18n'
 export default function Checkout() {
   const { userLogin } = useSelector(state => state.QuanLyNguoiDung);
   const { chitietPhongVe, danhSachGheDangDat } = useSelector(state => state.QuanLyDatPhimReducer);
@@ -70,92 +73,105 @@ export default function Checkout() {
   return (
     <div>
 
-      <div className="row">
-        <div className="col-6 p-5">
-          {renderList()}
-        </div>
+      <Tabs defaultActiveKey="1">
+        <Tabs.TabPane tab="01 Chọn Ghế Và Thanh Toán" key="1">
+          <div className="row">
+            <div className="col-6 p-5">
+              {renderList()}
+            </div>
 
-        <div className="col-6 p-5">
+            <div className="col-6 p-5">
 
-          <div className="content p-5">
-            <h1 class="text-green text-center">
-              {danhSachGheDangDat.reduce((tongTien, item, index) => {
-                return tongTien += item.giaVe;
-              }, 0).toLocaleString()}</h1>
-            <hr />
-
-            <h3>Địa điểm:{thongTinPhim?.tenCumRap}</h3>
-            <p>Ngày Chiếu: {thongTinPhim?.tenRap} - {thongTinPhim?.gioChieu}</p>
-            <p className='text-center'>{thongTinPhim?.ngayChieu}</p>
-
-            <hr />
-            <table className="table">
-              <tr>
-                <td>Ghế
-                  <span>
-                    {_.sortBy(danhSachGheDangDat, ['stt']).map((item, index) => {
-                      return (
-                        <span key={index} className='text-green-500 px-2' style={{
-                          fontSize: '20px'
-                        }}>{item.stt}</span>
-                      )
-                    })}
-                  </span>
-                </td>
-                <td>
+              <div className="content p-5">
+                <h1 class="text-green text-center">
                   {danhSachGheDangDat.reduce((tongTien, item, index) => {
                     return tongTien += item.giaVe;
-                  }, 0).toLocaleString()}
-                </td>
-              </tr>
-            </table>
-            <hr />
-            <p>Email</p>
-            <p>478476</p>
-            <hr />
-            <p>Phone</p>
-            <p>yduiueieio</p>
-            <br />
-            <button onClick={() => {
+                  }, 0).toLocaleString()}</h1>
+                <hr />
+
+                <h3>Địa điểm:{thongTinPhim?.tenCumRap}</h3>
+                <p>Ngày Chiếu: {thongTinPhim?.tenRap} - {thongTinPhim?.gioChieu}</p>
+                <p className='text-center'>{thongTinPhim?.ngayChieu}</p>
+
+                <hr />
+                <table className="table">
+                  <tr>
+                    <td>Ghế
+                      <span>
+                        {_.sortBy(danhSachGheDangDat, ['stt']).map((item, index) => {
+                          return (
+                            <span key={index} className='text-green-500 px-2' style={{
+                              fontSize: '20px'
+                            }}>{item.stt}</span>
+                          )
+                        })}
+                      </span>
+                    </td>
+                    <td>
+                      {danhSachGheDangDat.reduce((tongTien, item, index) => {
+                        return tongTien += item.giaVe;
+                      }, 0).toLocaleString()}
+                    </td>
+                  </tr>
+                </table>
+                <hr />
+                <p>Email</p>
+                <p>478476</p>
+                <hr />
+                <p>Phone</p>
+                <p>yduiueieio</p>
+                <br />
+                <button onClick={() => {
 
 
-              const thongTinDatVe = new ThongTinDatVe();
-              thongTinDatVe.maLichChieu = params.maLichChieu;
-              thongTinDatVe.danhSachVe = danhSachGheDangDat;
-              console.log(thongTinDatVe);
-              ///
-              const action = getButtonDatVeApi(thongTinDatVe);
-              dispatch(action);
-            }} className="btn btn-success">Đặt vé</button>
+                  const thongTinDatVe = new ThongTinDatVe();
+                  thongTinDatVe.maLichChieu = params.maLichChieu;
+                  thongTinDatVe.danhSachVe = danhSachGheDangDat;
+                  console.log(thongTinDatVe);
+                  ///
+                  const action = getButtonDatVeApi(thongTinDatVe);
+                  dispatch(action);
+                }} className="btn btn-success">Đặt vé</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-primary">
+                  <thead>
+                    <tr>
+                      <th scope="col">Ghế Chưa đặt</th>
+                      <th scope="col">Ghế đang đặt</th>
+                      <th scope="col">Ghế Vip</th>
+                      <th scope="col">Ghế đã đặt</th>
+                      <th scope="col">Ghế mình đặt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="">
+                      <td scope="row"></td>
+                      <div>
+                        <i className="fa fa-check-circle" />
+                        <i className="fa fa-check-circle" />
+                        <i className="fa fa-check-circle" />
+                        <i className="fa fa-check-circle" />
+                        <i className="fa fa-check-circle" />
+                      </div>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <div class="table-responsive">
-            <table class="table table-primary">
-              <thead>
-                <tr>
-                  <th scope="col">Ghế Chưa đặt</th>
-                  <th scope="col">Ghế đang đặt</th>
-                  <th scope="col">Ghế Vip</th>
-                  <th scope="col">Ghế đã đặt</th>
-                  <th scope="col">Ghế mình đặt</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="">
-                  <td scope="row"></td>
-                  <div>
-                    <i  className="fa fa-check-circle" />
-                    <i className="fa fa-check-circle" />
-                    <i className="fa fa-check-circle" />
-                    <i className="fa fa-check-circle" />
-                    <i className="fa fa-check-circle" />
-                  </div>
-                </tr>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="02 Kết Quả Đặt Vé" key="2">
+            <KetQuaThongTinDatVe/>
+        </Tabs.TabPane>
 
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+
+        <i18n/>
+      </Tabs>
+
+
+
 
 
 

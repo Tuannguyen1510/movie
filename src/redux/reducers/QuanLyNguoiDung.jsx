@@ -8,6 +8,7 @@ const initialState = {
     //   "taiKhoan": "250196",
     //   "matKhau": "1234"
     // }
+    thongTinNguoiDung : {}
 }
 
 const QuanLyNguoiDung = createSlice({
@@ -17,10 +18,13 @@ const QuanLyNguoiDung = createSlice({
     loginAction: (state, action) => {
         state.userLogin = action.payload;
     },
+    LayThongTinDatVeActionAPI: (state, action) => {
+      state.thongTinNguoiDung = action.payload;
+    }
   }
 });
 
-export const {loginAction} = QuanLyNguoiDung.actions
+export const {loginAction, LayThongTinDatVeActionAPI} = QuanLyNguoiDung.actions
 
 export default QuanLyNguoiDung.reducer
 
@@ -44,3 +48,14 @@ export const loginApi = (userLogin) => {
    
     }
 }
+
+export const LayThongTinDatVeAPI = () => {
+  return async dispatch => {
+      const result = await http.post('/api/QuanLyNguoiDung/LayThongTinNguoiDung');
+      // console.log('ketquadatve', result.data.content);
+      //Cập nhật cho reducer
+      const action = LayThongTinDatVeActionAPI(result.data.content);
+      dispatch(action);
+  }
+}
+
