@@ -8,6 +8,9 @@ import { Input } from 'antd';
 import { DatePicker, Radio, Space } from 'antd';
 import { useState } from 'react';
 import moment from 'moment/moment';
+import { useDispatch } from 'react-redux';
+import { values } from 'lodash';
+import { themPhimUpLoadApi } from '../../../../redux/reducers/QuanLyPhimReducer';
 const { RangePicker } = DatePicker;
 
 // 
@@ -18,6 +21,7 @@ const onChange = (e) => {
 
 export default function AddFilms() {
     const [imgSrc, setImg] = useState('');
+    const dispatch = useDispatch();
     const formik = useFormik({
         initialValues: {
             tenPhim: '',
@@ -35,6 +39,19 @@ export default function AddFilms() {
             console.log('log', values);
             // const actionThunk = loginApi(values);
             // dispatch(actionThunk);
+            // Tao doi tuong 
+            values.maNhom = 'GP09';
+            let formData = new FormData();
+            for(let key in values){
+                if(key !== 'hinhAnh'){
+                    formData.append(key, values[key]);
+                }else{
+                    formData.append('File', values.hinhAnh, values.hinhAnh.name);
+                }
+            }
+            // api 
+            const actionThunk = themPhimUpLoadApi(formData);
+            dispatch(actionThunk);
         },
     });
 
@@ -50,20 +67,22 @@ export default function AddFilms() {
     const handleChangeImg = (e) => {
         /// Lấy file
         let file = e.target.files[0];
-        // Tạo đối tượng 
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-            setImg(e.target.result);
+
+
+
+        if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/gif' || file.type === 'image/png') {
+            // Tạo đối tượng 
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                setImg(e.target.result);
+            }
+            ///
+            formik.setFieldValue('hinhAnh', file);
         }
+
     }
-   const renderImg = () => {
-     if(setImg === null){
-        return (<div>11</div>)
-     }else{
-        return (<div>00</div>)
-     }
-   }
+
 
 
     return (
@@ -158,11 +177,8 @@ export default function AddFilms() {
 
 
                                     {/* Cover ảnh  */}
+                                    <img src={imgSrc} alt="" width={100} height={100} />
 
-
-                                    <div>
-    {renderImg()}
-    </div>
 
 
 
@@ -212,7 +228,6 @@ export default function AddFilms() {
 
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

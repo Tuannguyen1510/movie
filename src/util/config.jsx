@@ -34,8 +34,7 @@ export const { saveStore,saveStoreJson,getStore,getStoreJson,removeStore} = {
         }
     }
 }
-
-const TOKEN_CYBERSOFT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udGVuZCA3MyIsIkhldEhhblN0cmluZyI6IjE5LzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NDQ1NDQwMDAwMCIsIm5iZiI6MTY1OTg5MTYwMCwiZXhwIjoxNjg0NjAyMDAwfQ.49m9-EoDr6zr7UOk_79hfcvJWKI_s0Wy_g40ossfl9c'
+const TOKEN_CYBERSOFT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udGVuZCA3MyIsIkhldEhhblN0cmluZyI6IjMwLzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NTQwNDgwMDAwMCIsIm5iZiI6MTY1OTg5MTYwMCwiZXhwIjoxNjg1NTUyNDAwfQ.-poI4CYh8bBsN-xbPHgcbNrVnKw1fA1r4IuZCUk0rmA'
 
 //Cấu hình cho tất các request api
 
@@ -67,7 +66,7 @@ http.interceptors.response.use((res)=>{
         //Lỗi do tham số => backend trả về 400 hoặc 404 mình sẽ xử lý
         alert('tham số không hợp lệ !');
         //chuyển hướng về home
-        history.push('/');
+        // history.push('/');
     }
     if(err.response?.status === 401 || err.response.status == 403) {
          const isMyTokenExpired = isExpired(getStore(ACCESS_TOKEN));

@@ -4,9 +4,18 @@ import axios from 'axios';
 import {http} from '../../util/config'
 const initialState = {
     arrImg: [{
-        "maBanner": 1,
-        "maPhim": 1282,
-        "hinhAnh": "https://movienew.cybersoft.edu.vn/hinhanh/ban-tay-diet-quy.png"
+        maPhim: 11771,
+        "tenPhim": "Chính diện của tra công 2",
+        "biDanh": "chinh-dien-cua-tra-cong-2",
+        "trailer": "https://www.youtube.com/watch?v=IhJUtMe-SkY",
+        "hinhAnh": "https://movienew.cybersoft.edu.vn/hinhanh/high-low-the-worst-x-high-low-the-worst-x_gp01.jpg",
+        "moTa": "Đẳng cấp đam mỹ 2024",
+        "maNhom": "GP02",
+        "ngayKhoiChieu": "2023-03-13T15:37:21.923",
+        "danhGia": 10,
+        "hot": true,
+        "dangChieu": true,
+        "sapChieu": false
       }
     ]
     
@@ -41,7 +50,7 @@ export const getAllProductApi = () => {
             //     url: 'https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachBanner',
             //     method:'GET'
             // });
-            const result = await http.get('/api/QuanLyPhim/LayDanhSachBanner')
+            const result = await http.get('/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP08')
             // console.log(result);
             const action = getAllProductApiAction(result.data.content);
             dispatch(action);

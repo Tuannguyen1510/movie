@@ -12,8 +12,6 @@ const initialState = {
         // "mahom": 'GP01' 
         }],
         filmDetail: [{}]
-    
-    
 }
 
 const QuanLyRapPhimReducer = createSlice({
@@ -42,8 +40,6 @@ export const getAllCumQuanLyRapApi = () => {
 
         try {
             const result = await http.get('/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=GP00')
-
-
             const action = getAllCumQuanLyRapActionApi(result.data.content)
             dispatch(action);
             console.log(result);
@@ -61,8 +57,6 @@ export const getAllLayThongTinRapChieuPhim = (maPhim) => {
 
         try {
             const result = await http.get(`/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maPhim}`)
-
-
             const action = getAllLayThongTinRapChieuPhimActionApi(result.data.content)
             dispatch(action);
             console.log(result);

@@ -19,6 +19,7 @@ import Dashboard from "./pages/Admin/Dashboard/Dashboard";
 import Films from "./pages/Admin/Films/Films";
 import ShowTime from "./pages/Admin/ShowTime/ShowTime";
 import AddFilms from "./pages/Admin/Films/AddFilms/AddFilms";
+import Edit from "./pages/Admin/Films/Edit/Edit";
 
 // const CheckoutTemplate = lazy(() => import ('./templates/CheckoutTemplate/CheckoutTemplate'))
 export const history = createBrowserHistory();
@@ -38,6 +39,7 @@ function App() {
         <AdminTemplate path="/admin" exact Component={Dashboard}/>
         <AdminTemplate path="/admin/films" exact Component={Films}/>
         <AdminTemplate path="/admin/films/addnew" exact Component={AddFilms}/>
+        <AdminTemplate path="/admin/films/edit/:maPhim" exact Component={Edit}/>
         <AdminTemplate path="/admin/users" exact Component={Dashboard}/>
         <AdminTemplate path="/admin/showtime" exact Component={ShowTime}/>
         {/* <Suspense fallback={<h1>LOADING....</h1>}> */}

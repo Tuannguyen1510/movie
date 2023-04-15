@@ -19,7 +19,19 @@ const initialState = {
         ],
     dangChieu: true,
     sapChieu: true,
-    arrFilmDefault: []
+    arrFilmDefault: [],
+    // form: [{
+    //     tenPhim: '',
+    //     moTa: '',
+    //     trailer: '',
+    //     hot: true,
+    //     hinhAnh: {},
+    //     danhGia: 5,
+    //     dangChieu: true,
+    //     ngayKhoiChieu: "",
+    //     sapChieu: true
+    // }],
+    thongTinPhim : {} 
 }
 
 const QuanLyPhimReducer = createSlice({
@@ -46,10 +58,16 @@ const QuanLyPhimReducer = createSlice({
                 state.sapChieu);
             console.log(action);
         },
+        themPhimUpLoadApiAction: (state, action) => {
+            state.formData = action.payload;
+        },
+        editPhimUpLoadApiAction: (state, action) => {
+            state.thongTinPhim = action.payload;
+        },
     }
 });
 
-export const { getAllPhimApiAction, getAllPhimDangChieu, getAllPhimSapChieu } = QuanLyPhimReducer.actions
+export const { getAllPhimApiAction, getAllPhimDangChieu, getAllPhimSapChieu,themPhimUpLoadApiAction , editPhimUpLoadApiAction} = QuanLyPhimReducer.actions
 
 export default QuanLyPhimReducer.reducer
 
@@ -62,7 +80,7 @@ export const getAllPhimApi = () => {
     return async (dispatch, getState) => {
 
         try {
-            const result = await http.get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP09`)
+            const result = await http.get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP11`)
 
             const action = getAllPhimApiAction(result.data.content);
             dispatch(action);
@@ -71,6 +89,45 @@ export const getAllPhimApi = () => {
             //        dispatch(action)
             //    }
 
+            console.log(result);
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+}
+
+
+
+export const themPhimUpLoadApi = (formData) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            const result = await http.post(`/api/QuanLyPhim/ThemPhimUploadHinh`, formData)
+
+            const action = themPhimUpLoadApiAction(result.data.content);
+            dispatch(action);
+           alert("Them Phim Thanh Cong");
+
+            console.log(result);
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+}
+
+
+export const EditPhimUpLoadApi = (maPhim) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            const result = await http.get(`/api/QuanLyPhim/LayThongTinPhim?MaPhim=${maPhim}`)
+
+            const action = editPhimUpLoadApiAction(result.data.content);
+            dispatch(action);
             console.log(result);
         } catch (err) {
             console.log(err)

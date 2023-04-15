@@ -7,32 +7,213 @@ import { ACCESS_TOKEN, removeStore, USER_LOGIN } from '../../../../util/config'
 import { Select } from 'antd';
 //
 import { useTranslation } from 'react-i18next';
+import { Menu, Dropdown, Icon } from 'antd';
 
+// header 
 
+import { Fragment, useState } from 'react'
+import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
+import {
+    ArrowPathIcon,
+    Bars3Icon,
+    ChartPieIcon,
+    CursorArrowRaysIcon,
+    FingerPrintIcon,
+    SquaresPlusIcon,
+    XMarkIcon,
+} from '@heroicons/react/24/outline'
+import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
+
+const products = [
+    { name: 'Mùa đông', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
+    { name: 'Mùa hè', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
+]
+const callsToAction = [
+    { name: 'Mùa Xuân', href: '#', icon: PlayCircleIcon },
+    { name: 'Mùa Thu', href: '#', icon: PhoneIcon },
+]
+
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
+const menu = (
+    <Menu>
+        <Menu.Item>
+            <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
+                Thông tin cá nhân
+            </a>
+        </Menu.Item>
+        <Menu.Item>
+            <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+                Giỏ hàng
+            </a>
+        </Menu.Item>
+        <Menu.Item>
+            <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/" onClick={() => {
+                removeStore(ACCESS_TOKEN);
+                removeStore(USER_LOGIN);
+                //clear hết tất cả biến trên redux
+                window.location.reload();//f5 reload lại trang
+            }}>
+                Đăng xuất
+            </a>
+        </Menu.Item>
+    </Menu>
+);
+///
 
 
 
 export default function () {
+    // 
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    //
     const { t, i18n } = useTranslation();
     const { userLogin } = useSelector(state => state.QuanLyNguoiDung);
     const renderLoginButton = () => {
         if (userLogin) {
-            return <>
-                <NavLink to="/profile" className="nav-link mx-3 text-white">Hello ! {userLogin.taiKhoan}</NavLink>
-                <span style={{ cursor: 'pointer', paddingRight: '15px' }} className="text-white" onClick={() => {
+            if (window.innerWidth > 1023) {
+                return <>
+                    <NavLink to="/profile" className="nav-link mx-3 text-red header-name" style={{ color: 'red' }}>
+                        <Dropdown overlay={menu}>
+                            <a className="ant-dropdown-link text-center justify-center" onClick={e => e.preventDefault()}>
+                                {userLogin.hoTen}
+                            </a>
+                        </Dropdown>
+                    </NavLink>
+                    {/* 
+                <button type="button" className="btn " onClick={() => {
                     removeStore(ACCESS_TOKEN);
                     removeStore(USER_LOGIN);
                     //clear hết tất cả biến trên redux
                     window.location.reload();//f5 reload lại trang
-                }}>Logout</span>
-            </>
+                }}>
+                    Đăng Xuất
+                </button> */}
+
+                </>
+            } else {
+                return (
+                    <div>
+                        <div className="space-y-2 py-6">
+                            <Disclosure as="div" className="-mx-3">
+                                {({ open }) => (
+                                    <>
+                                        <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 hover:bg-gray-50">
+                                            {userLogin.hoTen}
+                                            <ChevronDownIcon
+                                                className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
+                                                aria-hidden="true"
+                                            />
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="mt-2 space-y-2 m-auto">
+                                            <Disclosure.Button
+                                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                            >
+                                                Thông tin cá nhân
+                                            </Disclosure.Button>
+                                        </Disclosure.Panel>
+                                        <Disclosure.Panel className="mt-2 space-y-2">
+                                            <Disclosure.Button
+                                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                            >
+                                                Giỏ hàng
+                                            </Disclosure.Button>
+                                        </Disclosure.Panel>
+                                        <Disclosure.Panel className="mt-2 space-y-2">
+                                            <Disclosure.Button
+                                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+
+                                                onClick={() => {
+                                                    removeStore(ACCESS_TOKEN);
+                                                    removeStore(USER_LOGIN);
+                                                    //clear hết tất cả biến trên redux
+                                                    window.location.reload();//f5 reload lại trang
+                                                }}
+                                            >
+                                                Đăng xuất
+                                            </Disclosure.Button>
+                                        </Disclosure.Panel>
+                                        {/* <p>445</p>
+                                        <p>899</p> */}
+                                    </>
+                                )}
+                            </Disclosure>
+
+                            <a
+                                href="#"
+                                className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                                Cụm Rạp
+                            </a>
+                            <a
+                                href="#"
+                                className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                                Tin Tức
+                            </a>
+                            <a
+                                href="#"
+                                className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                                Ứng Dụng
+                            </a>
+                        </div>
+                    </div>
+                )
+            }
+        } else {
+            if (window.innerWidth > 1023) {
+                return <div>
+                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900 mb-4 " onClick={() => {
+                        history.push('/login')
+                    }}>
+                        <svg style={{ width: '40px', height: '40px', display: 'inline-block' }} class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
+                        <span style={{ color: "gray" }}>Đăng nhập</span>
+                    </a>
+                    
+                      
+                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900 pl-5">
+                        <svg style={{ width: '40px', height: '40px', display: 'inline-block', color: "green" }} class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
+                        <span style={{ color: "gray" }}>Đăng ký</span>
+                    </a>
+                </div>
+            } else {
+                return (
+                    <div>
+                        <div className="space-y-2 py-6">
+                            <a href="#" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" onClick={() => {
+                                history.push('/login')
+                            }}>
+                                <span style={{ color: "gray" }}>Đăng nhập</span>
+                            </a>
+                            <a href="#" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                <span style={{ color: "gray" }}>Đăng ký</span>
+                            </a>
+                            <a
+                                href="#"
+                                className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                                Cụm Rạp
+                            </a>
+                            <a
+                                href="#"
+                                className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                                Tin Tức
+                            </a>
+                            <a
+                                href="#"
+                                className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                                Ứng Dụng
+                            </a>
+                        </div>
+                    </div>
+                )
+            }
         }
-        return <div>
-            <button className="self-center px-8 py-3 rounded" onClick={() => {
-                history.push('/login')
-            }}>Sign in</button>
-            <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">Sign up</button>
-        </div>
+
 
     }
     // 
@@ -43,49 +224,125 @@ export default function () {
     }
     return (
         <div>
-            <header className="p-4  dark:text-gray-100 bg-slate-600 	w-full z-10">
-                <div className="container flex justify-between h-16 mx-auto">
-                    <a rel="noopener noreferrer" href="#" aria-label="Back to homepage" className="flex items-center p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 32 32" className="w-8 h-8 dark:text-violet-400">
-                            <path d="M27.912 7.289l-10.324-5.961c-0.455-0.268-1.002-0.425-1.588-0.425s-1.133 0.158-1.604 0.433l0.015-0.008-10.324 5.961c-0.955 0.561-1.586 1.582-1.588 2.75v11.922c0.002 1.168 0.635 2.189 1.574 2.742l0.016 0.008 10.322 5.961c0.455 0.267 1.004 0.425 1.59 0.425 0.584 0 1.131-0.158 1.602-0.433l-0.014 0.008 10.322-5.961c0.955-0.561 1.586-1.582 1.588-2.75v-11.922c-0.002-1.168-0.633-2.189-1.573-2.742zM27.383 21.961c0 0.389-0.211 0.73-0.526 0.914l-0.004 0.002-10.324 5.961c-0.152 0.088-0.334 0.142-0.53 0.142s-0.377-0.053-0.535-0.145l0.005 0.002-10.324-5.961c-0.319-0.186-0.529-0.527-0.529-0.916v-11.922c0-0.389 0.211-0.73 0.526-0.914l0.004-0.002 10.324-5.961c0.152-0.090 0.334-0.143 0.53-0.143s0.377 0.053 0.535 0.144l-0.006-0.002 10.324 5.961c0.319 0.185 0.529 0.527 0.529 0.916z"></path>
-                            <path d="M22.094 19.451h-0.758c-0.188 0-0.363 0.049-0.515 0.135l0.006-0.004-4.574 2.512-5.282-3.049v-6.082l5.282-3.051 4.576 2.504c0.146 0.082 0.323 0.131 0.508 0.131h0.758c0.293 0 0.529-0.239 0.529-0.531v-0.716c0-0.2-0.11-0.373-0.271-0.463l-0.004-0.002-5.078-2.777c-0.293-0.164-0.645-0.26-1.015-0.26-0.39 0-0.756 0.106-1.070 0.289l0.010-0.006-5.281 3.049c-0.636 0.375-1.056 1.055-1.059 1.834v6.082c0 0.779 0.422 1.461 1.049 1.828l0.009 0.006 5.281 3.049c0.305 0.178 0.67 0.284 1.061 0.284 0.373 0 0.723-0.098 1.027-0.265l-0.012 0.006 5.080-2.787c0.166-0.091 0.276-0.265 0.276-0.465v-0.716c0-0.293-0.238-0.529-0.529-0.529z"></path>
-                        </svg>
-                    </a>
-                    <ul className="items-stretch hidden space-x-3 lg:flex">
-                        <li className="flex">
-                            <NavLink rel="noopener noreferrer" to='/home' activeClassName='border-double border-4 border-indigo-600' className="flex items-center px-4 -mb-1 border-b-2">Home</NavLink>
-                        </li>
-                        <li className="flex">
-                            <NavLink rel="noopener noreferrer" to="/contact" activeClassName='border-double border-4 border-indigo-600' className="flex items-center px-4 -mb-1 border-b-2 ">Contact</NavLink>
-                        </li>
-                        <li className="flex">
-                            <NavLink rel="noopener noreferrer" to="/news" activeClassName='border-double border-4 border-indigo-600' className="flex items-center px-4 -mb-1 border-b-2 ">News</NavLink>
-                        </li>
-
-                    </ul>
-
-
-                    <div className="items-center flex-shrink-0 hidden lg:flex">
-                        {renderLoginButton()}
-                        <h1>{t('Hello')}</h1>
-                        <div>
-                            <Select defaultValue="en" style={{ width: 120 }} onChange={handleChange}>
-                                <Option value="vi">VI</Option>
-                                <Option value="en">ENG</Option>
-                                <Option value="chi">Chi</Option>
-                            </Select>
-
-                        </div>
+            <header className="bg-white header">
+                <nav className="mx-auto flex items-center justify-between" aria-label="Global">
+                    <div className="flex lg:flex-1">
+                        <a href="#" className="-m-1.5 p-1.5">
+                            <span className="sr-only">Your Company</span>
+                            <img className="h-8 w-auto" src="./img/headTixLogo.png" alt="" style={{ width: "80%", height: "80%" }} />
+                        </a>
                     </div>
+                    {/* img Titel */}
 
-                    <button className="p-4 lg:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 dark:text-gray-100">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
+                    <div className="flex lg:hidden">
+                        <button
+                            type="button"
+                            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                            onClick={() => setMobileMenuOpen(true)}
+                        >
+                            <span className="sr-only">Open main menu</span>
+                            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                        </button>
+                    </div>
+                    <Popover.Group className="hidden lg:flex lg:gap-x-12">
+                        <Popover className="relative">
+                            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+                                <NavLink to="/home">
+                                    Lịch Chiếu
+                                </NavLink>
+                                <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+                            </Popover.Button>
+
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-200"
+                                enterFrom="opacity-0 translate-y-1"
+                                enterTo="opacity-100 translate-y-0"
+                                leave="transition ease-in duration-150"
+                                leaveFrom="opacity-100 translate-y-0"
+                                leaveTo="opacity-0 translate-y-1"
+                            >
+                                <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                                    <div className="p-4">
+                                        {products.map((item) => (
+                                            <div
+                                                key={item.name}
+                                                className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
+                                            >
+                                                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                                    <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
+                                                </div>
+                                                <div className="flex-auto">
+                                                    <a href={item.href} className="block font-semibold text-gray-900">
+                                                        {item.name}
+                                                        <span className="absolute inset-0" />
+                                                    </a>
+                                                    <p className="mt-1 text-gray-600">{item.description}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                                        {callsToAction.map((item) => (
+                                            <a
+                                                key={item.name}
+                                                href={item.href}
+                                                className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
+                                            >
+                                                <item.icon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+                                                {item.name}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </Popover.Panel>
+                            </Transition>
+                        </Popover>
+
+                        <NavLink to='/contact' className="text-sm font-semibold leading-6 text-gray-900">
+                            Cụm Rạp
+                        </NavLink>
+                        <NavLink to="/news" className="text-sm font-semibold leading-6 text-gray-900">
+                            Tin tức
+                        </NavLink>
+                        <NavLink to="/" className="text-sm font-semibold leading-6 text-gray-900">
+                            Ứng Dụng
+                        </NavLink>
+                    </Popover.Group>
+                    <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                        {renderLoginButton()}
+                    </div>
+                </nav>
+
+
+                <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+                    <div className="fixed inset-0 z-10" />
+                    <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                        <div className="flex items-center justify-between">
+                            <a href="#" className="-m-1.5 p-1.5">
+                                <span className="sr-only">Your Company</span>
+                                <img
+                                    className="h-8 w-auto"
+                                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                    alt=""
+                                />
+                            </a>
+                            <button
+                                type="button"
+                                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                <span className="sr-only">Close menu</span>
+                                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                            </button>
+                        </div>
+                        <div className="mt-6 flow-root">
+                            <div className="-my-6 divide-y divide-gray-500/10">
+                                {renderLoginButton()}
+                            </div>
+                        </div>
+                    </Dialog.Panel>
+                </Dialog>
             </header>
-
         </div>
     )
 }

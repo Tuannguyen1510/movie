@@ -63,7 +63,7 @@ export default function Checkout() {
             {item.daDat ? classGheDaDuocDat != '' ? <UserOutlined /> : <CloseCircleOutlined style={{ marginBottom: '10px' }} /> : item.stt}
           </button>
 
-          {(index + 1) % 10 === 0 ? <br /> : ''}
+          {(index + 1) % 14 === 0 ? <br /> : ''}
 
         </>
       )
@@ -71,59 +71,95 @@ export default function Checkout() {
     })
   }
   return (
-    <div>
+    <div id="datVe">
 
       <Tabs defaultActiveKey="1">
         <Tabs.TabPane tab="01 Chọn Ghế Và Thanh Toán" key="1">
           <div className="row">
-            <div className="col-6 p-5">
+            <div className="col-8 datVe-left">
               {renderList()}
             </div>
 
-            <div className="col-6 p-5">
+            <div className="col-4 datVe-right">
 
-              <div className="content p-5">
-                <h1 class="text-green text-center">
+              <div className="content">
+                <h1 class="text-green text-center"style={{
+                      color: 'rgb(139, 195, 74)',
+                      fontSize:35
+                }}>
                   {danhSachGheDangDat.reduce((tongTien, item, index) => {
                     return tongTien += item.giaVe;
-                  }, 0).toLocaleString()}</h1>
-                <hr />
+                  }, 0).toLocaleString()} VND</h1>
 
-                <h3>Địa điểm:{thongTinPhim?.tenCumRap}</h3>
-                <p>Ngày Chiếu: {thongTinPhim?.tenRap} - {thongTinPhim?.gioChieu}</p>
-                <p className='text-center'>{thongTinPhim?.ngayChieu}</p>
-
-                <hr />
-                <table className="table">
-                  <tr>
-                    <td>Ghế
-                      <span>
-                        {_.sortBy(danhSachGheDangDat, ['stt']).map((item, index) => {
-                          return (
-                            <span key={index} className='text-green-500 px-2' style={{
-                              fontSize: '20px'
-                            }}>{item.stt}</span>
-                          )
-                        })}
-                      </span>
-                    </td>
-                    <td>
-                      {danhSachGheDangDat.reduce((tongTien, item, index) => {
+                  <table class="table-tinhTien" style={{
+                    width:'100%',
+                    padding:'20px'
+                  }}>
+                     <thead>
+                       <td class='datVe-name'>Khách hàng</td>
+                       <td class='datVe-content' style={{
+                        textAlign:'right',
+                        color:'red'
+                       }}>{userLogin.hoTen}</td>
+                    </thead>
+                    <thead>
+                       <td class='datVe-name'>Cụm Rạp</td>
+                       <td class='datVe-content' style={{
+                        textAlign:'right'
+                       }}>{thongTinPhim?.tenCumRap}</td>
+                    </thead>
+                    <thead>
+                       <td class='datVe-name'>Địa Chỉ</td>
+                       <td class='datVe-content' style={{
+                        textAlign:'right'
+                       }}>{thongTinPhim?.diaChi}</td>
+                    </thead>
+                    <thead>
+                       <td class='datVe-name'>Rạp</td>
+                       <td class='datVe-content' style={{
+                        textAlign:'right'
+                       }}>{thongTinPhim?.tenRap}</td>
+                    </thead>
+                    <thead>
+                       <td class='datVe-name'>Ngày Chiếu</td>
+                       <td class='datVe-content' style={{
+                        textAlign:'right'
+                       }}>{thongTinPhim?.ngayChieu}</td>
+                    </thead>
+                    <thead>
+                       <td class='datVe-name'>Tên Phim</td>
+                       <td class='datVe-content' style={{
+                        textAlign:'right'
+                       }}>{thongTinPhim?.tenPhim}</td>
+                    </thead>
+                    <thead>
+                       <td class='datVe-name'>Chọn ghế</td>
+                       <td class='datVe-content' style={{
+                        textAlign:'right'
+                       }}>     <span>
+                       {_.sortBy(danhSachGheDangDat, ['stt']).map((item, index) => {
+                         return (
+                           <span key={index} className='text-red px-1' style={{
+                             fontSize: '16px'
+                           }}>Ghế{item.stt}, </span>
+                         )
+                       })}
+                     </span> </td>
+                    </thead>
+                    <thead>
+                    <td class='datVe-name'>Tổng tiền</td>
+                       <td class='datVe-content' style={{
+                        textAlign:'right'
+                       }}>  {danhSachGheDangDat.reduce((tongTien, item, index) => {
                         return tongTien += item.giaVe;
-                      }, 0).toLocaleString()}
-                    </td>
-                  </tr>
-                </table>
-                <hr />
-                <p>Email</p>
-                <p>478476</p>
-                <hr />
-                <p>Phone</p>
-                <p>yduiueieio</p>
-                <br />
+                      }, 0).toLocaleString()} VND</td>
+                    </thead>
+                  </table>
+
+
+             
+           
                 <button onClick={() => {
-
-
                   const thongTinDatVe = new ThongTinDatVe();
                   thongTinDatVe.maLichChieu = params.maLichChieu;
                   thongTinDatVe.danhSachVe = danhSachGheDangDat;
@@ -131,10 +167,13 @@ export default function Checkout() {
                   ///
                   const action = getButtonDatVeApi(thongTinDatVe);
                   dispatch(action);
-                }} className="btn btn-success">Đặt vé</button>
+                }} class="btnDatVe" >Đặt vé</button>
               </div>
-              <div class="table-responsive">
-                <table class="table table-primary">
+
+
+
+              <div class="table-responsive pt-3">
+                <table class="table">
                   <thead>
                     <tr>
                       <th scope="col">Ghế Chưa đặt</th>
@@ -145,20 +184,18 @@ export default function Checkout() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="">
-                      <td scope="row"></td>
-                      <div>
-                        <i className="fa fa-check-circle" />
-                        <i className="fa fa-check-circle" />
-                        <i className="fa fa-check-circle" />
-                        <i className="fa fa-check-circle" />
-                        <i className="fa fa-check-circle" />
-                      </div>
+                    <tr>
+                      <th><button class="ghe text-center">x</button></th>
+                      <th><button class="ghe text-center gheDangDat gheDangDat">x</button></th>
+                     <th><button class="ghe text-center gheVip">x</button></th>
+                     <th><button disabled="" class="ghe text-center  gheDaDat"><CloseCircleOutlined style={{ marginBottom: '10px' }} /> </button></th>
+                     <th><button class="ghe text-center gheDaDuocDat"><UserOutlined /></button></th>
                     </tr>
-
                   </tbody>
                 </table>
               </div>
+
+
             </div>
           </div>
         </Tabs.TabPane>

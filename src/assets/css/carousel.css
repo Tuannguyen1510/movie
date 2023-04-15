@@ -1,0 +1,131 @@
+#app {
+    height: 100%;
+}
+
+html,
+body {
+    position: relative;
+    height: 100%;
+}
+
+body {
+    background: white;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+
+.swiper {
+    width: 100%;
+    height: 600px;
+    position: relative;
+}
+.swiper-button-prev,
+.swiper-button-next {
+    color: black;
+    background: white;
+    border-radius: 50%;
+    height: 60px;
+    width:60px;
+}
+@media (max-width: 1200px) {
+    .swiper-button-prev,
+    .swiper-button-next {
+        position: absolute;
+        top: 25%;
+    }
+
+}
+@media (max-width: 1024px) {
+    .swiper-button-prev,
+    .swiper-button-next {
+        position: absolute;
+        top: 50%;
+    }
+    .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal{
+        position:absolute;
+        top: 50%;
+    }
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 800px;
+        object-fit:cover;
+    }
+}
+@media (max-width: 768px) {
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        position: absolute;
+        top: 50%;
+    }
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 800px;
+        object-fit:cover;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        display: none !important;
+    }
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 800px;
+        object-fit:cover;
+    }
+   
+}
+
+
+
+
+
+
+*/
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+
+.autoplay-progress {
+    position: absolute;
+    top:5%;
+    right: 16px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: yellow;
+}
+
+.autoplay-progress svg {
+    --progress: 0;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    stroke-width: 4px;
+    stroke: var(--swiper-theme-color);
+    fill: none;
+    stroke-dashoffset: calc(125.6 * (1 - var(--progress)));
+    stroke-dasharray: 125.6;
+    transform: rotate(-90deg);
+    stroke: red;
+}

@@ -100,7 +100,7 @@ export default function Films() {
       render: (text, films) => {
         return (
           <div >
-            <NavLink to=""><EditOutlined style={{color: 'green', fontSize: '20px'}}/>  </NavLink>
+            <NavLink to={`/admin/films/edit/${films.maPhim}`}><EditOutlined style={{color: 'green', fontSize: '20px'}}/>  </NavLink>
             <NavLink to=""> <DeleteOutlined style={{color: 'red', fontSize: '20px'}}/> </NavLink>
 
           </div>
