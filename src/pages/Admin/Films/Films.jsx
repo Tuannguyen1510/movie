@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { Table } from 'antd';
-import { AudioOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { AudioOutlined, EditOutlined, DeleteOutlined,CalendarOutlined } from '@ant-design/icons';
 import { Input, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllPhimApi, getAllPhimApiAction } from '../../../redux/reducers/QuanLyPhimReducer';
+import { DeletedPhimUpLoadApi, getAllPhimApi, getAllPhimApiAction, getSearchPhimApi } from '../../../redux/reducers/QuanLyPhimReducer';
 import { NavLink } from 'react-router-dom';
 import { history } from '../../../App';
 
@@ -29,7 +29,15 @@ export default function Films() {
       }}
     />
   );
-  const onSearch = (value) => console.log(value);
+  const onSearch = (value) => {
+    console.log(value);
+    const actionThunk = getSearchPhimApi(value);
+    
+    dispatch(actionThunk);
+  }
+
+
+
   const columns = [
     {
       title: 'Mã Phim',
@@ -101,8 +109,16 @@ export default function Films() {
         return (
           <div >
             <NavLink to={`/admin/films/edit/${films.maPhim}`}><EditOutlined style={{color: 'green', fontSize: '20px'}}/>  </NavLink>
-            <NavLink to=""> <DeleteOutlined style={{color: 'red', fontSize: '20px'}}/> </NavLink>
-
+            <span onClick={() =>{
+              if(window.confirm("Bạn có chắc muốn xóa phim không" + films.tenPhim)){
+                       // Gọi action 
+                       const actionThunk = DeletedPhimUpLoadApi(films.maPhim);
+                       dispatch(actionThunk);
+              }
+            }} to=""> <DeleteOutlined style={{color: 'red', fontSize: '20px'}}/> </span>
+             <NavLink to={`/admin/showtime/${films.maPhim}/${films.tenPhim}`} onClick={() => {
+              localStorage.setItem('flimsParam',JSON.stringify( films));
+             }}><CalendarOutlined style={{color: 'blue', fontSize: '20px'}}/> </NavLink>
           </div>
         )
       },

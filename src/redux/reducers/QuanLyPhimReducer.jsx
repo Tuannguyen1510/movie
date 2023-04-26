@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { GROUPID, http } from '../../util/config'
+import { history } from '../../App';
 const initialState = {
     arrFilm:
         [{
@@ -64,10 +65,16 @@ const QuanLyPhimReducer = createSlice({
         editPhimUpLoadApiAction: (state, action) => {
             state.thongTinPhim = action.payload;
         },
+        updatePhimUpLoadApiAction: (state, action) =>{
+            state.formData = action.payload;
+        },
+        deletedPhimUpLoadApiAction: (state, action) =>{
+            state.maPhim = action.payload;
+        },
     }
 });
 
-export const { getAllPhimApiAction, getAllPhimDangChieu, getAllPhimSapChieu,themPhimUpLoadApiAction , editPhimUpLoadApiAction} = QuanLyPhimReducer.actions
+export const { getAllPhimApiAction, getAllPhimDangChieu, getAllPhimSapChieu,themPhimUpLoadApiAction , editPhimUpLoadApiAction,updatePhimUpLoadApiAction} = QuanLyPhimReducer.actions
 
 export default QuanLyPhimReducer.reducer
 
@@ -75,13 +82,39 @@ export default QuanLyPhimReducer.reducer
 
 // action thunk 
 //------------------ action thunk ------------
-export const getAllPhimApi = () => {
+export const getAllPhimApi = (tenPhim = '') => {
 
     return async (dispatch, getState) => {
 
         try {
+            
             const result = await http.get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP11`)
 
+            const action = getAllPhimApiAction(result.data.content);
+            dispatch(action);
+            //    if(action.type == 'SET_DANH_SACH_PHIM'){
+            //        const action = getAllPhimApiAction(result.data.content);
+            //        dispatch(action)
+            //    }
+
+            console.log(result);
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+}
+
+
+
+export const getSearchPhimApi = (tenPhim = '') => {
+
+    return async (dispatch, getState) => {
+
+        try {
+           
+                const result = await http.get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP11&tenPhim=${tenPhim}`)
+        
             const action = getAllPhimApiAction(result.data.content);
             dispatch(action);
             //    if(action.type == 'SET_DANH_SACH_PHIM'){
@@ -129,6 +162,50 @@ export const EditPhimUpLoadApi = (maPhim) => {
             const action = editPhimUpLoadApiAction(result.data.content);
             dispatch(action);
             console.log(result);
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+}
+
+
+export const UpdatePhimUpLoadApi = (formData) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            const result = await http.post(`api/QuanLyPhim/CapNhatPhimUpload`,formData)
+
+            const action = updatePhimUpLoadApiAction(result.data.content);
+            dispatch(action);
+            alert('Cập nhật phim thành công')
+            console.log(result);
+
+
+            history.push('/admin/films')
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+}
+
+
+export const DeletedPhimUpLoadApi = (maPhim) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            const result = await http.delete(`api/QuanLyPhim/XoaPhim?MaPhim=${maPhim}`)
+
+            const action = updatePhimUpLoadApiAction(result.data.content);
+            dispatch(action);
+            alert('Xóa phim thành công')
+            console.log(result);
+
+
+            // history.push('/admin/films')
         } catch (err) {
             console.log(err)
         }

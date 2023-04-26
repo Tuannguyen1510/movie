@@ -11,7 +11,8 @@ const initialState = {
         // "logo": 'https://movienew.cybersoft.edu.vn/hinhanh/cinestar.png',
         // "mahom": 'GP01' 
         }],
-        filmDetail: [{}]
+        filmDetail: [{}],
+        cumRapChieu: [],
 }
 
 const QuanLyRapPhimReducer = createSlice({
@@ -24,10 +25,13 @@ const QuanLyRapPhimReducer = createSlice({
         getAllLayThongTinRapChieuPhimActionApi:( state, action) => {
             state.filmDetail = action.payload
         },
+        getLayThongTinCumRapTheoHeThong: (state ,action) => {
+            state.cumRapChieu = action.payload
+        }
     }
 });
 
-export const { getAllCumQuanLyRapActionApi, getAllLayThongTinRapChieuPhimActionApi } = QuanLyRapPhimReducer.actions
+export const { getAllCumQuanLyRapActionApi, getAllLayThongTinRapChieuPhimActionApi , getLayThongTinCumRapTheoHeThong} = QuanLyRapPhimReducer.actions
 
 export default QuanLyRapPhimReducer.reducer
 
@@ -58,6 +62,41 @@ export const getAllLayThongTinRapChieuPhim = (maPhim) => {
         try {
             const result = await http.get(`/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maPhim}`)
             const action = getAllLayThongTinRapChieuPhimActionApi(result.data.content)
+            dispatch(action);
+            // console.log(result);
+
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+}
+
+
+export const LayThongTinHeThongRap= (maHeThongRap) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            const result = await http.get(`/api/QuanLyRap/LayThongTinHeThongRap`)
+            const action = getAllCumQuanLyRapActionApi(result.data.content)
+            dispatch(action);
+            console.log(result);
+
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+}
+export const LayThongTinCumRapTheoHeThong= (maHeThongRap) => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            // const result = await http.get(`/api/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${maHeThongRap}`)
+            const result = await http.get(`/api/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=cgv`)
+            const action = getLayThongTinCumRapTheoHeThong(result.data.content)
             dispatch(action);
             console.log(result);
 

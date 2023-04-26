@@ -49,9 +49,9 @@ export const loginApi = (userLogin) => {
     }
 }
 
-export const LayThongTinDatVeAPI = () => {
+export const LayLichSuDatVeAPI = () => {
   return async dispatch => {
-      const result = await http.post('/api/QuanLyNguoiDung/LayThongTinNguoiDung');
+      const result = await http.post('/api/QuanLyNguoiDung/ThongTinTaiKhoan');
       // console.log('ketquadatve', result.data.content);
       //Cập nhật cho reducer
       const action = LayThongTinDatVeActionAPI(result.data.content);

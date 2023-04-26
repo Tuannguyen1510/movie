@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getLayThongTinDatVe, getDatVe, getButtonDatVeApi } from '../../redux/reducers/QuanLyDatPhimReducer';
+import { getLayThongTinDatVe, getDatVe, getButtonDatVeApi, getQuayLai, getChuyenTag } from '../../redux/reducers/QuanLyDatPhimReducer';
 import style from './Checkout.module.css'
 import './Checkout.css'
 // import {getDatVe} from '../../redux/reducers/QuanLyDatPhimReducer'
@@ -25,6 +25,13 @@ export default function Checkout() {
   const { danhSachGhe, thongTinPhim } = chitietPhongVe;
   //  console.log("thong tin: ", thongTinPhim);
   // console.log(thongTinPhim.ngayChieu);
+
+
+// chuyển tag 
+const {tabActive} = useSelector(state => state.QuanLyDatPhimReducer)
+
+// console.log((tabActive));
+
 
 
 
@@ -56,6 +63,8 @@ export default function Checkout() {
             // console.log(item);
             const itemCart = { ...item };
             const action = getDatVe(itemCart);
+            // const itemCart = { ...item };
+            // const action = getDatVe(item);
             dispatch(action);
             console.log(danhSachGheDangDat);
           }}
@@ -73,8 +82,15 @@ export default function Checkout() {
   return (
     <div id="datVe">
 
-      <Tabs defaultActiveKey="1">
-        <Tabs.TabPane tab="01 Chọn Ghế Và Thanh Toán" key="1">
+      <Tabs defaultActiveKey="1" >
+{/*         
+      <Tabs defaultActiveKey="1" activeKey={tabActive.toString()}  onChange={(key) => {
+           dispatch(getChuyenTag({
+            number : 1
+           }
+           ))
+      }}></Tabs> */}
+        <Tabs.TabPane tab="01 Chọn Ghế Và Thanh Toán" key="1" >
           <div className="row">
             <div className="col-8 datVe-left">
               {renderList()}
@@ -163,7 +179,8 @@ export default function Checkout() {
                   const thongTinDatVe = new ThongTinDatVe();
                   thongTinDatVe.maLichChieu = params.maLichChieu;
                   thongTinDatVe.danhSachVe = danhSachGheDangDat;
-                  console.log(thongTinDatVe);
+                  // console.log((danhSachGheDangDat));
+                  // console.log(thongTinDatVe);
                   ///
                   const action = getButtonDatVeApi(thongTinDatVe);
                   dispatch(action);
