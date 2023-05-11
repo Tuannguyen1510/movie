@@ -62,40 +62,46 @@ export default function Cards(props) {
 
 
 
-            <NavLink to={`/detail/${item.maPhim}`} type="button" className="" id="hoverButton" >
-                <div className="card">
-                    <div className="card-img" style={{
-                        backgroundImage: `url(${item.hinhAnh})`, // Sử dụng template literals để truyền dữ liệu vào backgroundImage
-                        backgroundSize: 'cover',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
-                    }}>
-                        <div className="card-video">
-                            <React.Fragment>
-                                <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId={id} onClose={() => setOpen(false)} />
-                                <button className="btn-primary" onClick={() => setOpen(true)}><PlayCircleOutlined style={{ width: "100px", height: "100px" }} /></button>
-                            </React.Fragment>
-                        </div>
+            {/* <NavLink to={`/detail/${item.maPhim}`} type="button" className="" id="hoverButton" > */}
+            <div className="card">
+                <div className="card-img" style={{
+                    backgroundImage: `url(${item.hinhAnh})`, // Sử dụng template literals để truyền dữ liệu vào backgroundImage
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                }}>
+                    <div className="card-video">
+                        <React.Fragment>
+                            <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId={id} onClose={() => setOpen(false)} />
+                            <button className="btn-primary" onClick={() => setOpen(true)}><PlayCircleOutlined style={{ width: "100px", height: "100px" }} /></button>
+                        </React.Fragment>
                     </div>
-
-                    {/*  */}
-                    <div class="content">
-                        <div className="card-content">
-                            <div className="d-flex content">
-                                <span> </span>
-                                <span>{item.tenPhim}</span>
-                            </div>
-                        </div>
-                        <div className="card-moTa">
-                            <p>{item.moTa.slice(0, 50)}....</p>
-                            <div className="card-datVe">
-                                <button>Múa Vé</button>
-                            </div>
-                        </div>
-                    </div>
-                    {/*  */}
                 </div>
-            </NavLink>
+
+                {/*  */}
+                <div class="content">
+                    <div className="card-content">
+                        <div className="d-flex content">
+                            <span> </span>
+                            <span>{item.tenPhim}</span>
+                        </div>
+                    </div>
+                    <div className="card-moTa">
+                        <p>{item.moTa.slice(0, 50)}....</p>
+                        <div className="card-datVe">
+                            {/* <NavLink to={`/detail/${item.maPhim}`} type="button" className="" id="hoverButton" > */}
+                                <button>
+                                    <NavLink to={`/detail/${item.maPhim}`} type="button" className="" id="hoverButton" >
+                                        Múa Vé
+                                    </NavLink>
+                                </button>
+                            {/* </NavLink> */}
+                        </div>
+                    </div>
+                </div>
+                {/*  */}
+            </div>
+            {/* </NavLink> */}
 
         </>
 

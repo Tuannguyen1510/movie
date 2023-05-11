@@ -6,7 +6,18 @@ body {
     padding: 0;
     margin: 0;
 }
-
+.listRap .listRap-content .listRap-pd :where(.css-dev-only-do-not-override-1n7nwfa).ant-tabs {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 14px;
+    line-height: 1.5714285714;
+    list-style: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    display: flex;
+    height: 800px !important;
+}
 
 #detail {
     // position: relative;
